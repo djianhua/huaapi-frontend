@@ -227,6 +227,8 @@ const Register: React.FC = () => {
                   },
                 ]}
                 onGetCaptcha={async (phoneNum) => {
+                  message.error("该功能暂时关闭");
+                  return;
                   //获取验证成功后才会进行倒计时
                   try {
                     const result = await smsCaptchaUsingGET({

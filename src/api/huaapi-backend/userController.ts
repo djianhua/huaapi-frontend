@@ -121,6 +121,21 @@ export async function userLoginUsingPOST(
   });
 }
 
+/** userLoginByEmail POST /api/user/loginByEmail */
+export async function userLoginByEmailUsingPOST(
+  body: API.UserLoginRequest,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponseUser>('/api/user/loginByEmail', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
 /** userLoginBySms POST /api/user/loginBySms */
 export async function userLoginBySmsUsingPOST(
   body: API.UserLoginRequest,
@@ -166,6 +181,21 @@ export async function smsCaptchaUsingGET(
   options?: { [key: string]: any },
 ) {
   return request<API.BaseResponsestring>('/api/user/smsCaptcha', {
+    method: 'GET',
+    params: {
+      ...params,
+    },
+    ...(options || {}),
+  });
+}
+
+/** smsCaptchaByEmail GET /api/user/smsCaptchaByEmail */
+export async function smsCaptchaByEmailUsingGET(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.smsCaptchaByEmailUsingGETParams,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponsestring>('/api/user/smsCaptchaByEmail', {
     method: 'GET',
     params: {
       ...params,

@@ -11,12 +11,12 @@ const Footer: React.FC = () => {
       }}
       copyright={`${currentYear} ${defaultMessage}`}
       links={[
-        {
-          key: 'Hua API',
-          title: 'Hua API',
-          href: '',
-          // blankTarget: true,
-        },
+        // {
+        //   key: 'Hua API',
+        //   title: 'Hua API',
+        //   href: '',
+        //   // blankTarget: true,
+        // },
         {
           key: 'github',
           title: <GithubOutlined />,

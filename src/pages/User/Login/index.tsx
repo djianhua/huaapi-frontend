@@ -11,7 +11,8 @@ import { Alert, message, Tabs } from 'antd';
 import React, { useState } from 'react';
 import styles from './index.less';
 import {
-  smsCaptchaUsingGET,
+  smsCaptchaByEmailUsingGET,
+  smsCaptchaUsingGET, userLoginByEmailUsingPOST,
   userLoginBySmsUsingPOST,
   userLoginUsingPOST,
 } from '@/api/huaapi-backend/userController';
@@ -44,8 +45,13 @@ const Login: React.FC = () => {
         res = await userLoginUsingPOST({
           ...values,
         });
-      } else {
+      } else if (type === 'mobile') {
         res = await userLoginBySmsUsingPOST({
+          ...values,
+        });
+      } else {
+        // todo 把请求路径改为邮箱登录
+        res = await userLoginByEmailUsingPOST({
           ...values,
         });
       }
@@ -108,6 +114,10 @@ const Login: React.FC = () => {
               {
                 key: 'mobile',
                 label: '手机号登录',
+              },
+              {
+                key: 'email',
+                label: '邮箱登录',
               },
             ]}
           />
@@ -195,6 +205,64 @@ const Login: React.FC = () => {
                 onGetCaptcha={async (phoneNum) => {
                   const result = await smsCaptchaUsingGET({
                     phoneNum,
+                  });
+                  if (result === false) {
+                    return;
+                  }
+                  // message.success(result.data);
+                  // message.error(result.data);
+                }}
+              />
+            </>
+          )}
+
+          {status === 'error' && loginType === 'email' && <LoginMessage content="验证码错误" />}
+          {type === 'email' && (
+            <>
+              <ProFormText
+                fieldProps={{
+                  size: 'large',
+                  prefix: <MobileOutlined className={styles.prefixIcon} />,
+                }}
+                name="emailNum"
+                placeholder={'请输入您的邮箱！'}
+                rules={[
+                  {
+                    required: true,
+                    message: '邮箱是必填项！',
+                  },
+                  {
+                    pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                    message: '不合法的邮箱号！',
+                  },
+                ]}
+              />
+              <ProFormCaptcha
+                fieldProps={{
+                  size: 'large',
+                  prefix: <LockOutlined className={styles.prefixIcon} />,
+                }}
+                captchaProps={{
+                  size: 'large',
+                }}
+                placeholder={'请输入验证码！'}
+                captchaTextRender={(timing, count) => {
+                  if (timing) {
+                    return `${count} ${'秒后重新获取'}`;
+                  }
+                  return '获取验证码';
+                }}
+                name="phoneCaptcha"
+                phoneName="emailNum"
+                rules={[
+                  {
+                    required: true,
+                    message: '验证码是必填项！',
+                  },
+                ]}
+                onGetCaptcha={async (emailNum) => {
+                  const result = await smsCaptchaByEmailUsingGET({
+                    emailNum,
                   });
                   if (result === false) {
                     return;
