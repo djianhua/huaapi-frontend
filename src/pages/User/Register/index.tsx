@@ -5,7 +5,11 @@ import { Alert, message, Tabs } from 'antd';
 import React, { useState } from 'react';
 import styles from './index.less';
 import { history, Link } from '@@/exports';
-import {getCaptchaUsingGET, smsCaptchaUsingGET, userRegisterUsingPOST} from '@/api/huaapi-backend/userController';
+import {
+  getCaptchaUsingGET,
+  smsCaptchaByEmailUsingGET, smsCaptchaUsingGET,
+  userRegisterUsingPOST
+} from '@/api/huaapi-backend/userController';
 import { randomStr } from '@antfu/utils';
 
 const LoginMessage: React.FC<{
@@ -185,16 +189,16 @@ const Register: React.FC = () => {
                   size: 'large',
                   prefix: <MobileOutlined className={'prefixIcon'} />,
                 }}
-                name="phoneNum"
-                placeholder={'手机号'}
+                name="emailNum"
+                placeholder={'请输入邮箱'}
                 rules={[
                   {
                     required: true,
-                    message: '请输入手机号！',
+                    message: '请输入邮箱！',
                   },
                   {
-                    pattern: /^1[3-9]\d{9}$/,
-                    message: '手机号格式错误！',
+                    pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                    message: '邮箱格式错误！',
                   },
                 ]}
               />
@@ -215,7 +219,7 @@ const Register: React.FC = () => {
                 }}
                 name="phoneCaptcha"
                 // 手机号的 name，onGetCaptcha 会注入这个值
-                phoneName="phoneNum"
+                phoneName="emailNum"
                 rules={[
                   {
                     required: true,
@@ -226,13 +230,13 @@ const Register: React.FC = () => {
                     message: '验证码格式错误！',
                   },
                 ]}
-                onGetCaptcha={async (phoneNum) => {
-                  message.error("该功能暂时关闭");
-                  return;
+                onGetCaptcha={async (emailNum) => {
+                  // message.error("该功能暂时关闭");
+                  // return;
                   //获取验证成功后才会进行倒计时
                   try {
-                    const result = await smsCaptchaUsingGET({
-                      phoneNum,
+                    const result = await smsCaptchaByEmailUsingGET({
+                      emailNum,
                     });
                     if (!result) {
                       return;

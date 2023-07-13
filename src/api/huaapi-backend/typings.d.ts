@@ -612,7 +612,7 @@ declare namespace API {
     captcha?: string;
     checkPassword?: string;
     phoneCaptcha?: string;
-    phoneNum?: string;
+    emailNum?: string;
     userAccount?: string;
     userName?: string;
     userPassword?: string;
