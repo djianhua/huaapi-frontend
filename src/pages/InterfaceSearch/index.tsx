@@ -52,10 +52,6 @@ const Index: React.FC = () => {
     // console.log(activeKey);
     setType(activeKey);
   };
-  const highlightStyle = {
-    backgroundColor: 'yellow',
-    fontWeight: 'bold',
-  };
   return (
     <>
       <PageContainer title="搜索接口">
@@ -109,7 +105,7 @@ const Index: React.FC = () => {
                   )
                 }
               >
-                <span dangerouslySetInnerHTML={{ __html: item.description.replace(/<em>(.*?)<\/em>/g, '<em style="background-color: yellow; font-weight: bold;">$1</em>') }}></span>
+                <span dangerouslySetInnerHTML={{ __html: item.description.replace(/<em>(.*?)<\/em>/g, '<em style="background-color: greenyellow; font-weight: bold;">$1</em>') }}></span>
               </Card>
             </List.Item>
           )}
