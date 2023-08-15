@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Search from 'antd/es/input/Search';
 import { Card, List, message, Tabs, TabsProps } from 'antd';
 import { searchUsingPOST } from '@/api/huaapi-backend/interfaceInfoController';
+import './interfaceSearch.css';
 
 const Index: React.FC = () => {
   const [loading, setLoading] = useState(false);
@@ -51,6 +52,10 @@ const Index: React.FC = () => {
     // console.log(activeKey);
     setType(activeKey);
   };
+  const highlightStyle = {
+    backgroundColor: 'yellow',
+    fontWeight: 'bold',
+  };
   return (
     <>
       <PageContainer title="搜索接口">
@@ -92,7 +97,7 @@ const Index: React.FC = () => {
           renderItem={(item) => (
             <List.Item>
               <Card
-                style={{ height: 250 }}
+                style={{ height: 250}}
                 title={item.name}
                 extra={
                   type === 'Apiaa1' ? (
@@ -104,7 +109,7 @@ const Index: React.FC = () => {
                   )
                 }
               >
-                {item.description}
+                <span dangerouslySetInnerHTML={{ __html: item.description.replace(/<em>(.*?)<\/em>/g, '<em style="background-color: yellow; font-weight: bold;">$1</em>') }}></span>
               </Card>
             </List.Item>
           )}
@@ -115,3 +120,4 @@ const Index: React.FC = () => {
 };
 
 export default Index;
+
